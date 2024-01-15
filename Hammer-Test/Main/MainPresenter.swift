@@ -55,7 +55,7 @@ extension MainPresenter: MainPresenterProtocol {
         view?.moveToSection(with: number)
     }
     func showCategory(with number: Int) {
-        collectionView?.showCategory(with: number)
+        collectionView?.changeCategory(number: number)
     }
     
    

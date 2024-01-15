@@ -40,9 +40,9 @@ class MainViewController: UIViewController {
     private let navCollectionView = CategoryCollectionView()
     
     
-   
+    
     private let activityIndicator = {
-       let activityIndicator = UIActivityIndicatorView()
+        let activityIndicator = UIActivityIndicatorView()
         activityIndicator.style = .medium
         activityIndicator.hidesWhenStopped = true
         return activityIndicator
@@ -74,7 +74,7 @@ class MainViewController: UIViewController {
 }
 
 // MARK: - Private functions
- extension MainViewController {
+extension MainViewController {
     
     
     func makeNavigationBarStack() -> UIBarButtonItem{
@@ -97,12 +97,12 @@ class MainViewController: UIViewController {
     }
     
     
-     func setupActivityIndicator() {
-         customTableView.addView(activityIndicator)
-         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-         activityIndicator.startAnimating()
-     }
+    func setupActivityIndicator() {
+        customTableView.addView(activityIndicator)
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        activityIndicator.startAnimating()
+    }
     
     
     func makeNavigationBarMenu() -> [UIBarButtonItem] {
@@ -141,7 +141,7 @@ class MainViewController: UIViewController {
         
         animatedConstraint = navCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: maxConstraintConstant)
         NSLayoutConstraint.activate([
-           animatedConstraint!,
+            animatedConstraint!,
             navCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
             navCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             navCollectionView.heightAnchor.constraint(equalToConstant: 52)
@@ -220,14 +220,15 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         10
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-            let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 10))
-            
-            return headerView
-        }
-  
+        let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 10))
+        
+        return headerView
+    }
+    
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         presenter?.showCategory(with: section)
     }
+    
     
 }
 
@@ -240,15 +241,24 @@ extension MainViewController: MainViewProtocol {
         self.keysArray = categories
     }
     func setupTableViewData(with food: [String: [Dish]]) {
-        DispatchQueue.main.async {
-            self.activityIndicator.stopAnimating()
-            self.categoryDishesDict = food
-            self.customTableView.reloadData()
-        }
+        
+        activityIndicator.stopAnimating()
+        categoryDishesDict = food
+        customTableView.reloadData()
+        
     }
     func moveToSection(with number: Int) {
+//        customTableView.delegate = nil
         let indexPath = IndexPath(row: 0, section: number)
-        customTableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        UIView.animate(withDuration: 1) {
+            self.customTableView.scrollToRow(at: indexPath, at: .top, animated: false)
+        } 
+
+       
+        
+
+       
+        
     }
     
     

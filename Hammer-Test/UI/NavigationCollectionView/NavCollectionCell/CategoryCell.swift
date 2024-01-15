@@ -24,7 +24,7 @@ final class CategoryCell: UICollectionViewCell {
         backgroundColor = .white
         layer.borderWidth = 1
         layer.borderColor = UIColor(hexString: "#FD3A69").withAlphaComponent(0.4).cgColor
-        layer.cornerRadius = 16
+        layer.cornerRadius = 15.5
         addView(headerLabel)
         NSLayoutConstraint.activate([
             headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 7),

@@ -11,7 +11,7 @@ final class CategoryCollectionView: UIView {
     weak var presenter: MainPresenterProtocol?
     private var categoryArray: [String] = []
     private var choosen: Int = 0
-    
+    private var choosenCell: CategoryCell = CategoryCell()
     
     private let activityIndicator = {
        let activityIndicator = UIActivityIndicatorView()
@@ -91,40 +91,60 @@ extension CategoryCollectionView: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! CategoryCell
-        if choosen != indexPath.row {
-            let lastCell = collectionView.cellForItem(at: IndexPath(row: choosen, section: 0)) as! CategoryCell
-            lastCell.setupForDefault()
-            cell.setupForChoosen()
-            presenter?.didSelectItemAt(section: indexPath.row)
-            choosen = indexPath.row
-            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        }
+        choosenCell.setupForDefault()
+        choosenCell = collectionView.cellForItem(at: indexPath) as! CategoryCell
+        choosenCell.setupForChoosen()
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        presenter?.didSelectItemAt(section: indexPath.row)
         
-        
+//        let cell = collectionView.cellForItem(at: indexPath) as! CategoryCell
+//        if choosen != indexPath.row {
+//            let lastCell = collectionView.cellForItem(at: IndexPath(row: choosen, section: 0)) as! CategoryCell
+//            lastCell.setupForDefault()
+//            cell.setupForChoosen()
+//            presenter?.didSelectItemAt(section: indexPath.row)
+//            choosen = indexPath.row
+//            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+//        }
     }
     
+   
 
     
 }
 extension CategoryCollectionView {
-    func showCategory(with number: Int) {
-        if number == choosen {
-            let indexPath = IndexPath(row: number, section: 0)
-            let cell = collectionView.cellForItem(at: indexPath) as! CategoryCell
-            cell.setupForChoosen()
+    
+    func changeCategory(number: Int) {
+        let indexPath = IndexPath(row: number, section: 0)
+        let cell = collectionView.cellForItem(at: indexPath) as! CategoryCell
+        if choosenCell != cell {
+            print(number)
+            choosenCell.setupForDefault()
+            choosenCell = cell
+            choosenCell.setupForChoosen()
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        } else {
-            let currenctChoosenCell = collectionView.cellForItem(at: IndexPath(row: choosen, section: 0)) as! CategoryCell
-            currenctChoosenCell.setupForDefault()
-            print("Choosen", choosen, "Number", number)
-            let newCell = collectionView.cellForItem(at: IndexPath(row: number, section: 0)) as! CategoryCell
-            newCell.setupForChoosen()
-            choosen = number
-            collectionView.scrollToItem(at: IndexPath(row: choosen, section: 0), at: .centeredHorizontally, animated: true)
-           
         }
+//        choosenCell = collectionView.cellForItem(at: indexPath) as! CategoryCell
         
         
+        
+        
+//        if let number = number {
+//            if number == choosen {
+//                let indexPath = IndexPath(row: number, section: 0)
+//                let cell = collectionView.cellForItem(at: indexPath) as! CategoryCell
+//                cell.setupForChoosen()
+//                collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+//            } else  {
+//                let currenctChoosenCell = collectionView.cellForItem(at: IndexPath(row: choosen, section: 0)) as! CategoryCell
+//                currenctChoosenCell.setupForDefault()
+//                print("Choosen", choosen, "Number", number)
+//                let newCell = collectionView.cellForItem(at: IndexPath(row: number, section: 0)) as! CategoryCell
+//                newCell.setupForChoosen()
+//                choosen = number
+//                collectionView.scrollToItem(at: IndexPath(row: choosen, section: 0), at: .centeredHorizontally, animated: true)
+//               
+//            }
+//        }
     }
 }
